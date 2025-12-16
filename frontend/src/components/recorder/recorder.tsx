@@ -1,19 +1,24 @@
 
 
-import React, { useState, useRef } from 'react';
-import { useTranscript } from '../../store/transcript';
+import { useState, useRef } from 'react';
 import './recorder.css';
 
-export function Recorder() {
+
+interface Properties {
+  url: string;
+  onText: (text: string | undefined) => void;
+  onError?: (error: string) => void;
+}
+
+export function Recorder(props: Properties) {
   const [recording, setRecording] = useState(false);
   const [loading, setLoading] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunks = useRef<Blob[]>([]);
-  const { setTranscript } = useTranscript();
 
   // Start recording audio and reset transcript/loading
   const startRecording = async () => {
-    setTranscript('');
+    props.onText(undefined);
     setLoading(false);
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -37,16 +42,20 @@ export function Recorder() {
       formData.append('file', audioBlob, 'audio.wav');
 
       try {
-        const response = await fetch('http://localhost:8000/transcribe', {
+        const response = await fetch(props.url, {
           method: 'POST',
           body: formData,
         });
 
         const data = await response.json();
 
-        setTranscript(data.text || JSON.stringify(data));
+        if (data.text) {
+          props.onText(data.text);
+        } else {
+          props.onError?.('I did not understand. Please repeat.');
+        }
       } catch (err) {
-        setTranscript('Error during transcription.');
+        props.onError?.('Error during transcription.');
       }
 
       setLoading(false);

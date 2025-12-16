@@ -9,6 +9,19 @@ This repository contains a full-stack application for testing microphone input a
 
 ---
 
+## Getting Started
+
+1. With VsCode, install extension `dev containers`.
+2. In VsCode, `ctrl+shift+p` => `Dev Containers: Install devcontainer CLI`.
+3. from your shell:
+
+```bash
+cd ${your_project}
+devcontainer open .
+```
+
+---
+
 ## Frontend
 
 - **Location**: `frontend/`
@@ -17,19 +30,6 @@ This repository contains a full-stack application for testing microphone input a
   - Record audio from the user's microphone
   - Send audio to the backend for transcription
   - Display transcribed text
-
-### Getting Started (Frontend)
-
-1. Install dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-2. Start the development server:
-   ```bash
-   npm start
-   ```
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
@@ -41,19 +41,6 @@ This repository contains a full-stack application for testing microphone input a
   - Receives audio files via HTTP
   - Transcribes audio using Whisper
   - Returns transcription as JSON
-
-### Getting Started (Backend)
-
-1. Install dependencies:
-   ```bash
-   cd whisper-api
-   pip install -r requirements.txt
-   ```
-2. Run the API server:
-   ```bash
-   python app.py
-   ```
-3. The API will be available at [http://localhost:5000](http://localhost:5000)
 
 ---
 

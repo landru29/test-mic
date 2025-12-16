@@ -1,20 +1,19 @@
 
 
 import { Recorder } from './components/recorder/recorder';
-
+import { useState } from 'react';
 import './App.css';
-import { useTranscript } from './store/transcript';
 
 
 
 function App() {
-  const { transcript } = useTranscript();
+  const [transcript, setTranscript] = useState<string | undefined>(undefined);
 
   return (
       <div className="App">
         <header className="App-header">
           <h2>Speed to text</h2>
-          <Recorder />
+          <Recorder url="http://localhost:8000/transcribe" onText={setTranscript} onError={setTranscript}/>
           <div className="transcript-box">
             {transcript ? (
               <pre>{transcript}</pre>
